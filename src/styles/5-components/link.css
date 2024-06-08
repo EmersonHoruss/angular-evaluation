@@ -1,0 +1,32 @@
+.link-default {
+  color: var(--foreground);
+  font-family: var(--text);
+  font-weight: 500;
+  font-size: var(--font-sm);
+  line-height: var(--leading-5);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.link-default:hover {
+  text-decoration: underline;
+  transition: ease-in 150ms;
+}
+
+.link-branded {
+  color: var(--primary-active);
+  font-family: var(--text);
+  font-weight: 500;
+  font-size: var(--font-sm);
+  line-height: var(--leading-5);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.link-branded:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+  transition: ease-in 150ms;
+}

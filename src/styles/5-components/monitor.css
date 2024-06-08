@@ -1,0 +1,127 @@
+.monitor {
+  width: var(--spacing-12);
+  height: var(--spacing-12);
+  border-radius: var(--rounded-full);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  padding: var(--spacing-2);
+
+  position: absolute;
+  bottom: var(--spacing-6);
+  right: var(--spacing-10);
+}
+
+.monitor img {
+  width: 100%;
+  height: 100%;
+}
+
+.monitor__dashboard {
+  width: 300px;
+  height: 300px;
+  background-color: var(--white);
+
+  position: absolute;
+  bottom: calc(var(--spacing-6) + var(--spacing-12));
+  right: calc(var(--spacing-10) + var(--spacing-12) / 2);
+
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-4);
+}
+
+.monitor__dashboard-header {
+  height: 36px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.monitor__dashboard-content {
+  width: 100%;
+  height: calc(100% - 36px);
+  padding-top: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+}
+
+.monitor__dashboard-table th:nth-child(1),
+.monitor__dashboard-table td:nth-child(1) {
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
+}
+
+.monitor__dashboard-table th:nth-child(2),
+.monitor__dashboard-table td:nth-child(2) {
+  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
+}
+
+.monitor__dashboard-table th:nth-child(3),
+.monitor__dashboard-table td:nth-child(3) {
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
+}
+
+.monitor__dashboard-table th:nth-child(4),
+.monitor__dashboard-table td:nth-child(4) {
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
+}
+
+.monitor__dashboard-table th:nth-child(5),
+.monitor__dashboard-table td:nth-child(5) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.monitor__dashboard-table th:nth-child(6),
+.monitor__dashboard-table td:nth-child(6) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.monitor__dashboard-table th:nth-child(7),
+.monitor__dashboard-table td:nth-child(7) {
+  width: 90px;
+  min-width: 90px;
+  max-width: 90px;
+}
+
+.monitor__dashboard-table th:nth-child(8),
+.monitor__dashboard-table td:nth-child(8) {
+  width: 90px;
+  min-width: 90px;
+  max-width: 90px;
+}
+
+.monitor__dashboard-table th:nth-child(9),
+.monitor__dashboard-table td:nth-child(9) {
+  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
+}
+
+.monitor__dashboard-table td {
+  text-wrap: nowrap;
+  position: relative;
+  height: 42px;
+}
+
+.monitor__dashboard-table td span {
+  position: absolute;
+  top: 4px;
+}
+
+.monitor__dashboard-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}

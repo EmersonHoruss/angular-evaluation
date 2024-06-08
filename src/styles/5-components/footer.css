@@ -1,0 +1,19 @@
+/* Footer */
+
+.footer {
+  padding-block: var(--spacing-2);
+  text-align: center;
+
+  color: var(--muted-foreground);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-10);
+}
+
+
+.footer__text {
+  font-size: var(--font-xs);
+  line-height: var(--leading-5);
+}

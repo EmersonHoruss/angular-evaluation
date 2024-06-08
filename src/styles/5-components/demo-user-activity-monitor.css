@@ -1,0 +1,22 @@
+.demo-user-activity-monitor {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: var(--background-modal);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.demo-user-activity-monitor__content {
+  width: 70vw;
+  min-height: 70vh !important;
+  max-height: 70vh !important;
+  background-color: var(--white);
+}
+
+.demo-user-activity-monitor__tab a {
+  color: var(--muted-foreground-subtle);
+}

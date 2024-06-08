@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600&family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap");
 
 /* 1. Settings */
@@ -8,9 +7,54 @@
 @import url(styles/1-settings/spacing.css);
 @import url(styles/1-settings/typography.css);
 @import url(styles/1-settings/width.css);
+@import url(styles/1-settings/keyframes.css);
 
 /* 2. Generic */
 @import url(styles/2-generic/reset.css);
 
 /* 3. Elements */
 @import url(styles/3-elements/elements.css);
+
+/* 4. Objects */
+@import url(styles/4-objects/objects.css);
+
+/* 5. Components */
+@import url(styles/5-components/navigation.css);
+@import url(styles/5-components/footer.css);
+@import url(styles/5-components/social-links.css);
+@import url(styles/5-components/hero.css);
+@import url(styles/5-components/articles-section.css);
+@import url(styles/5-components/article-metadata.css);
+@import url(styles/5-components/article-summary.css);
+@import url(styles/5-components/author.css);
+@import url(styles/5-components/article.css);
+@import url(styles/5-components/content.css);
+@import url(styles/5-components/button.css);
+@import url(styles/5-components/link.css);
+@import url(styles/5-components/form-field.css);
+@import url(styles/5-components/features.css);
+@import url(styles/5-components/logo-cloud.css);
+@import url(styles/5-components/testimonials.css);
+@import url(styles/5-components/pricing.css);
+@import url(styles/5-components/footer-links.css);
+@import url(styles/5-components/customized-list.css);
+@import url(styles/5-components/unete.css);
+@import url(styles/5-components/about-us-hero.css);
+@import url(styles/5-components/about-us-information.css);
+@import url(styles/5-components/our-team.css);
+@import url(styles/5-components/faq.css);
+@import url(styles/5-components/checkables.css);
+@import url(styles/5-components/projects.css);
+@import url(styles/5-components/developer.css);
+@import url(styles/5-components/encuesta.css);
+@import url(styles/5-components/music-player.css);
+@import url(styles/5-components/demo-user-activity-monitor.css);
+@import url(styles/5-components/counter.css);
+@import url(styles/5-components/monitor.css);
+@import url(styles/5-components/card.css);
+@import url(styles/5-components/scroll.css);
+@import url(styles/5-components/table.css);
+@import url(styles/5-components/staff.css);
+
+/* 6. Utilities */
+@import url(styles/6-utilities/utilities.css);

@@ -1,0 +1,88 @@
+.hero__title {
+  color: var(--foreground, #171717);
+  text-align: center;
+  font-family: "Familjen Grotesk";
+  font-size: 60px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 60px;
+}
+
+.hero__subtitle {
+  color: var(--muted-foreground, #525252);
+  text-align: center;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+.hero__paragraph {
+  color: var(--muted-foreground, #525252);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.information--paragraphs {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 28px;
+  column-gap: 32px;
+}
+
+@media (min-width: 40rem) {
+  .information--paragraphs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.hero__paragraph--bold {
+  color: var(--muted-foreground, #525252);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.about-us__stats {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 32px var(--spacing-8, 32px);
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+
+.information--card {
+  display: flex;
+  min-width: 120px;
+  padding-left: var(--spacing-6, 24px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-6, 24px);
+  flex: 1 0 0;
+}
+
+.information--card .indicator {
+  color: var(--foreground, #171717);
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px;
+  letter-spacing: -0.75px;
+}
+
+.information--card .description {
+  color: var(--muted-foreground, #525252);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}

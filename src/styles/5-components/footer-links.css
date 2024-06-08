@@ -1,0 +1,16 @@
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: var(--spacing-6);
+  column-gap: var(--spacing-12);
+  justify-content: center;
+}
+
+.footer-links li {
+  list-style-type: none;
+}
+
+.footer-links li a {
+  color: var(--muted-foreground);
+  text-decoration: none;
+}

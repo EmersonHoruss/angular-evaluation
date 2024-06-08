@@ -1,0 +1,24 @@
+.logo-cloud{
+    padding-block: var(--spacing-24);
+    background: var(--background);
+}
+.logo-cloud__content{
+    display: grid;
+    gap: var(--spacing-16);
+
+}
+.logo-cloud__header{
+    gap: var(--spacing-6);
+}
+/* .logo-cloud__title{
+
+} */
+.logo-cloud__lead{
+    padding-top: var(--spacing-6);
+}
+.logo-cloud__logos{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-8);
+    justify-content: center;
+}

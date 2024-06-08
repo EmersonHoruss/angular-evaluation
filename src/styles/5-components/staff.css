@@ -1,0 +1,28 @@
+.staff {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-14);
+}
+
+.staff__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.staff__item img {
+  width: 150px;
+  height: 150px;
+  border: var(--rounded-full);
+}
+
+.staff__item-name {
+  padding-top: var(--spacing-2);
+}
+
+.staff__item-role {
+  color: var(--neutral-500);
+  font-weight: bold;
+  font-size: var(--font-sm);
+}

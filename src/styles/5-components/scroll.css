@@ -1,0 +1,17 @@
+.scroll {
+  overflow: auto;
+}
+
+.scroll::-webkit-scrollbar {
+  width: var(--spacing-2);
+  height: var(--spacing-2);
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: var(--neutral-200);
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--neutral-400);
+  border-radius: var(--rounded-lg);
+}

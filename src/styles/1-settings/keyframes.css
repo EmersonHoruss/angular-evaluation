@@ -1,0 +1,65 @@
+/*boton que sirve para ir al inicio de la pagina*/
+@keyframes deslizar_boton { 
+    from{
+
+        transform: translatey(100%);
+    }
+    to{
+        transform: translatey(0%);
+
+    }
+    
+}
+@keyframes presionar_boton {
+    from{
+        transform: translatey(5%);
+    }
+    to{
+        transform: translatey(0%);
+    }
+    
+}
+@keyframes aparecer_left_right {
+    from{
+        opacity: 0;
+        transform: translatex(-20%);
+    }
+    to{
+        opacity: 1;
+        transform: translatex(0%);
+    }
+    
+}
+@keyframes sepia {
+    from{
+        filter: sepia(50%);
+    }
+    to{
+        filter: sepia(0%);
+    }
+    
+}
+@keyframes escala_redes {
+    0%{
+        transform: scale(1.3);
+    }
+    50%{
+        transform: scale(0.8);
+    }
+    100%{
+        transform: scale(1);
+    }
+    
+}
+@keyframes rotacion_titulos {
+    0%{
+        transform: rotate(-3deg);
+    }
+    50%{
+        transform: rotate(3deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+  
+}

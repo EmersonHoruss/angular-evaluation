@@ -1,0 +1,16 @@
+.customized-list svg {
+  min-width: 20px;
+  min-height: 20px;
+  margin-top: var(--space-unit);
+  color: var(--primary);
+}
+
+.customized-list__item {
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+.customized-list__item .customized-list__title {
+  padding: 0;
+  margin: 0;
+}

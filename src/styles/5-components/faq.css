@@ -1,0 +1,89 @@
+.faq__title {
+  display: flex;
+  max-width: 672px;
+  flex-direction: column;
+  gap: var(--spacing-6, 24px);
+  align-self: stretch;
+  color: var(--foreground, #171717);
+  margin-bottom: 40px;
+
+  font-family: "Familjen Grotesk";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px;
+}
+
+.faq--container {
+  max-width: 896px;
+  margin: auto;
+}
+
+.faq-details {
+  max-width: 900px;
+  overflow: hidden;
+}
+
+.faq-summary {
+  display: block;
+  border-top: 1px solid var(--border, #d4d4d4);
+  background: #fff;
+}
+
+.faq-summary ::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  flex: 1 0 0;
+  color: var(--foreground, #171717);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.faq-item:hover {
+  cursor: pointer;
+}
+
+.faq-item::before {
+  content: "►";
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  transition: rotate 200ms 400ms ease-out;
+}
+
+div.faq-content {
+  box-sizing: border-box;
+  max-width: 900px;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 26px;
+  transition: max-height 400ms ease-out, border 0ms 400ms linear;
+
+  color: var(--muted-foreground, #525252);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.faq-details[open] + div.faq-content {
+  max-height: 800px;
+  border-color: #888;
+  transition: max-height 400ms ease-out, border 0ms linear;
+}
+
+.faq-details[open] span::before {
+  rotate: 90deg;
+  transition: rotate 200ms ease-out;
+}
