@@ -36,7 +36,7 @@ import { CommonModule } from '@angular/common';
           />
         </div>
         <p class="game-status">{{ statusMessages[status] }}</p>
-        <button onClick="{handleReset}">Reset</button>
+        <button (click)="handleReset()">Reset</button>
       </div>
       <div class="squares">
         @for (color of colors(); track $index) {
@@ -84,7 +84,8 @@ export class ColorGameComponent {
   }
 
   handleReset() {
-    //completar
+    this.attempts.set([]);
+    this.colors.set(getRandomColors(this.numOfColors));
   }
 
   handleAttempt() {
