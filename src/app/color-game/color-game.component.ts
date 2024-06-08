@@ -55,6 +55,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './color-game.component.css',
 })
 export class ColorGameComponent {
+  static DEFAULT_NUM_OF_COLORS = 6;
   rgbString = rgbString;
   numOfColors = 6;
   statusMessages = {
@@ -79,8 +80,11 @@ export class ColorGameComponent {
   );
 
   handleChangeNumber(event: Event) {
-    // completar
-    // console.log(this.colors[this.target]);
+    this.numOfColors = parseInt(
+      (event?.target as HTMLInputElement)?.value ??
+        ColorGameComponent.DEFAULT_NUM_OF_COLORS
+    );
+    this.handleReset();
   }
 
   handleReset() {
