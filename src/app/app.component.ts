@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterModule],
   template: `
     <div class="wrapper">
       <header class="header">
-        <a class="logo" href="/"
+        <a class="logo" routerLink="/"
           ><img src="assets/angular.svg" />Angular Evaluation</a
         >
         <nav class="nav">
           @for (item of navigation; track item.to) {
-          <a class="nav-item" [href]="item.to">
+          <a class="nav-item" [routerLink]="item.to">
             {{ item.name }}
           </a>
           }
