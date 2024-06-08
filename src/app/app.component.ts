@@ -13,7 +13,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
         >
         <nav class="nav">
           @for (item of navigation; track item.to) {
-          <a class="nav-item" [routerLink]="item.to">
+          <a class="nav-item" [routerLink]="item.to" routerLinkActive="link-active">
             {{ item.name }}
           </a>
           }
