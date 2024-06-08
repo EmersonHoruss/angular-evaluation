@@ -113,3 +113,39 @@
 
   transition: opacity 300ms, background-color 150ms;
 }
+
+.rgb-square {
+  border-width: var(--space-unit);
+  border-style: solid;
+  border-radius: var(--rounded);
+  background-color: transparent;
+
+  width: var(--spacing-24);
+  height: var(--spacing-24);
+
+  padding: var(--space-unit);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rgb-square-value {
+  color: var(--foreground);
+  font-size: var(--font-2xl);
+  line-height: var(--leading-8);
+  font-weight: 700;
+
+  flex: 1 0 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.rgb-square-tag {
+  color: var(--foreground);
+  font-size: var(--font-lg);
+  line-height: var(--leading-8);
+  font-weight: 400;
+}

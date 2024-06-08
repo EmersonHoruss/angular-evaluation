@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { getRandomColors, getStatus, rgbString } from './utils';
-import { Color } from './interfaces';
+import {
+  getColorsTargeted,
+  getRandomColors,
+  getStatus,
+  rgbString,
+} from './utils';
+import { Color, ColorTargeted } from './types';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,7 +19,14 @@ import { CommonModule } from '@angular/common';
         Guess which color correspond to the following RGB code
       </p>
 
-      <div class="rgb-wrapper">{{ rgbString(colors[target]) }}</div>
+      <div class="rgb-wrapper">
+        @for (color of colorsTargeted; track color) {
+        <div class="rgb-square" [ngStyle]="{ 'border-color': color.rgb }">
+          <span class="rgb-square-value">{{ color.value }}</span>
+          <span class="rgb-square-tag">{{ color.tag }}</span>
+        </div>
+        }
+      </div>
       <div class="dashboard">
         <div class="number-input">
           <label for="colors"># Colors</label>
@@ -60,9 +72,11 @@ export class ColorGameComponent {
   colors = getRandomColors(this.numOfColors);
   target = Math.floor(Math.random() * this.colors.length);
   status = getStatus(this.attempts, this.target, this.numOfColors);
+  colorsTargeted: ColorTargeted[] = getColorsTargeted(this.colors[this.target]);
 
   handleChangeNumber(event: Event) {
     // completar
+    console.log(this.colors[this.target]);
   }
 
   handleReset() {
