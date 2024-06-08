@@ -14,7 +14,7 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, HomeComponent],
+      imports: [AppComponent],
       providers: [provideRouter(routes)],
     }).compileComponents();
 
@@ -54,7 +54,7 @@ describe('AppComponent', () => {
     expect(router.url).toBe('/');
   });
 
-  it('should render color component', () => {
+  it('should render color game component', () => {
     const link = fixture.nativeElement.querySelector(
       '[data-testid="Color Game"]'
     );
