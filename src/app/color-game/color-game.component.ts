@@ -1,11 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  getColorsTargeted,
-  getRandomColors,
-  getStatus,
-  rgbString,
-} from './utils';
-import { Color, ColorTargeted } from './types';
+import { Component, computed, signal } from '@angular/core';
+import { getRandomColors, getStatus, rgbString } from './utils';
+import { Color, ColorTag, ColorTargeted } from './types';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -20,7 +15,7 @@ import { CommonModule } from '@angular/common';
       </p>
 
       <div class="rgb-wrapper">
-        @for (color of colorsTargeted; track color) {
+        @for (color of colorsTargeted(); track $index) {
         <div class="rgb-square" [ngStyle]="{ 'border-color': color.rgb }">
           <span class="rgb-square-value">{{ color.value }}</span>
           <span class="rgb-square-tag">{{ color.tag }}</span>
@@ -44,7 +39,7 @@ import { CommonModule } from '@angular/common';
         <button onClick="{handleReset}">Reset</button>
       </div>
       <div class="squares">
-        @for (color of colors; track $index) {
+        @for (color of colors(); track $index) {
         <button
           [ngStyle]="{
             'background-color': rgbString(color),
@@ -68,15 +63,24 @@ export class ColorGameComponent {
     lose: 'You lose!',
   };
 
-  attempts: number[] = [];
-  colors = getRandomColors(this.numOfColors);
+  attempts = signal<number[]>([]);
+  colors = signal<Color[]>(getRandomColors(this.numOfColors));
   target = Math.floor(Math.random() * this.colors.length);
-  status = getStatus(this.attempts, this.target, this.numOfColors);
-  colorsTargeted: ColorTargeted[] = getColorsTargeted(this.colors[this.target]);
+  status = getStatus(this.attempts(), this.target, this.numOfColors);
+  colorsTargeted = computed<ColorTargeted[]>(() =>
+    Object.entries(ColorTag).map(
+      ([_, tag]: [string, ColorTag], index): ColorTargeted => ({
+        value: this.colors()[this.target][index],
+        tag,
+        tagIndex: index + 1,
+        rgb: index === 0 ? 'red' : index === 1 ? 'green' : 'blue',
+      })
+    )
+  );
 
   handleChangeNumber(event: Event) {
     // completar
-    console.log(this.colors[this.target]);
+    // console.log(this.colors[this.target]);
   }
 
   handleReset() {
