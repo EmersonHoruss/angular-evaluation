@@ -35,7 +35,7 @@ import { CommonModule } from '@angular/common';
             max="9"
           />
         </div>
-        <p class="game-status">{{ statusMessages[status] }}</p>
+        <p class="game-status">{{ statusMessages[status()] }}</p>
         <button (click)="handleReset()">Reset</button>
       </div>
       <div class="squares">
@@ -58,7 +58,7 @@ export class ColorGameComponent {
   static DEFAULT_NUM_OF_COLORS = 6;
   rgbString = rgbString;
   numOfColors = 6;
-  statusMessages = {
+  statusMessages: Record<string, string> = {
     playing: 'The game is on!',
     win: 'You won!',
     lose: 'You lose!',
@@ -67,11 +67,13 @@ export class ColorGameComponent {
   attempts = signal<Set<number>>(new Set());
   colors = signal<Color[]>(getRandomColors(this.numOfColors));
   target = Math.floor(Math.random() * this.colors.length);
-  status = getStatus(
-    Array.from(this.attempts()),
-    this.target,
-    this.numOfColors
-  );
+  status = computed<string>(() => {
+    return getStatus(
+      Array.from(this.attempts()),
+      this.target,
+      this.numOfColors
+    );
+  });
   colorsTargeted = computed<ColorTargeted[]>(() =>
     Object.entries(ColorTag).map(
       ([_, tag]: [string, ColorTag], index): ColorTargeted => ({
