@@ -42,7 +42,8 @@ import { CommonModule } from '@angular/common';
         @for (color of colors(); track $index) {
         <button
           [ngStyle]="{
-            'background-color': rgbString(color),
+            'background-color':
+              status() === 'playing' ? rgbString(color) : colorsTargetedRgb(),
             opacity: attemptIndexes()[$index] ? '0' : '100'
           }"
           (click)="handleAttempt($index)"
@@ -67,28 +68,36 @@ export class ColorGameComponent {
 
   attempts = signal<Set<number>>(new Set());
   colors = signal<Color[]>(getRandomColors(this.numOfColors));
-  target = Math.floor(Math.random() * this.colors.length);
+  target = computed<number>(() =>
+    Math.floor(Math.random() * this.colors().length)
+  );
   status = computed<string>(() => {
     return getStatus(
       Array.from(this.attempts()),
-      this.target,
+      this.target(),
       this.numOfColors
     );
   });
   colorsTargeted = computed<ColorTargeted[]>(() =>
     Object.entries(ColorTag).map(
       ([_, tag]: [string, ColorTag], index): ColorTargeted => ({
-        value: this.colors()[this.target][index],
+        value: this.colors()[this.target()][index],
         tag,
         tagIndex: index + 1,
         rgb: index === 0 ? 'red' : index === 1 ? 'green' : 'blue',
       })
     )
   );
+  colorsTargetedRgb = computed<string>(() => {
+    const color: Color = this.colorsTargeted().map((e) => e.value) as Color;
+    return rgbString(color);
+  });
   attemptIndexes = computed(() =>
-    Array.from({ length: this.colors().length }, (_, i) =>
-      this.attempts().has(i)
-    )
+    this.status() === 'playing'
+      ? Array.from({ length: this.colors().length }, (_, i) =>
+          this.attempts().has(i)
+        )
+      : Array.from({ length: this.colors().length }, (_, i) => false)
   );
   attemptsDisabled = computed(() => this.status() !== 'playing');
 
@@ -102,7 +111,8 @@ export class ColorGameComponent {
 
   handleReset() {
     this.attempts.set(new Set());
-    this.colors.set(getRandomColors(this.numOfColors));
+    const random = getRandomColors(this.numOfColors);
+    this.colors.set(random);
   }
 
   handleAttempt(index: number) {
