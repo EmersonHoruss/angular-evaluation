@@ -43,7 +43,7 @@ import { CommonModule } from '@angular/common';
         <button
           [ngStyle]="{
             'background-color': rgbString(color),
-            opacity: '100'
+            opacity: attemptIndexes()[$index] ? '0' : '100'
           }"
           (click)="handleAttempt($index)"
           class="square"
@@ -64,10 +64,14 @@ export class ColorGameComponent {
     lose: 'You lose!',
   };
 
-  attempts = signal<number[]>([]);
+  attempts = signal<Set<number>>(new Set());
   colors = signal<Color[]>(getRandomColors(this.numOfColors));
   target = Math.floor(Math.random() * this.colors.length);
-  status = getStatus(this.attempts(), this.target, this.numOfColors);
+  status = getStatus(
+    Array.from(this.attempts()),
+    this.target,
+    this.numOfColors
+  );
   colorsTargeted = computed<ColorTargeted[]>(() =>
     Object.entries(ColorTag).map(
       ([_, tag]: [string, ColorTag], index): ColorTargeted => ({
@@ -76,6 +80,11 @@ export class ColorGameComponent {
         tagIndex: index + 1,
         rgb: index === 0 ? 'red' : index === 1 ? 'green' : 'blue',
       })
+    )
+  );
+  attemptIndexes = computed(() =>
+    Array.from({ length: this.colors().length }, (_, i) =>
+      this.attempts().has(i)
     )
   );
 
@@ -88,11 +97,15 @@ export class ColorGameComponent {
   }
 
   handleReset() {
-    this.attempts.set([]);
+    this.attempts.set(new Set());
     this.colors.set(getRandomColors(this.numOfColors));
   }
 
   handleAttempt(index: number) {
-    this.attempts.update((attempts) => [...attempts, index]);
+    this.attempts.update((attempts) => {
+      const newSet = new Set(attempts);
+      newSet.add(index);
+      return newSet;
+    });
   }
 }
