@@ -47,6 +47,7 @@ import { CommonModule } from '@angular/common';
           }"
           (click)="handleAttempt($index)"
           class="square"
+          [disabled]="attemptsDisabled()"
         ></button>
         }
       </div>
@@ -89,6 +90,7 @@ export class ColorGameComponent {
       this.attempts().has(i)
     )
   );
+  attemptsDisabled = computed(() => this.status() !== 'playing');
 
   handleChangeNumber(event: Event) {
     this.numOfColors = parseInt(
