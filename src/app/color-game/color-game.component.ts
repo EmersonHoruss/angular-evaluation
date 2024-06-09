@@ -1,12 +1,15 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, ViewEncapsulation, computed, signal } from '@angular/core';
 import { getRandomColors, getStatus, rgbString } from './utils';
 import { Color, ColorTag, ColorTargeted } from './types';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../shared/button/button.component';
+import { encapsulateStyle } from '@angular/compiler';
 
 @Component({
   selector: 'app-color-game',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div class="wrapper">
       <h1 class="title">Color Game</h1>
@@ -36,20 +39,23 @@ import { CommonModule } from '@angular/common';
           />
         </div>
         <p class="game-status">{{ statusMessages[status()] }}</p>
-        <button (click)="handleReset()">Reset</button>
+        <app-button (clicked)="handleReset()" cssClass="button-default">
+          Reset
+        </app-button>
       </div>
       <div class="squares">
         @for (color of colors(); track $index) {
-        <button
-          [ngStyle]="{
+        <app-button
+          [style]="{
             'background-color':
               status() === 'playing' ? rgbString(color) : colorsTargetedRgb(),
             opacity: attemptIndexes()[$index] ? '0' : '100'
           }"
-          (click)="handleAttempt($index)"
-          class="square"
+          (clicked)="handleAttempt($index)"
+          cssClass="square"
           [disabled]="attemptsDisabled()"
-        ></button>
+        >
+        </app-button>
         }
       </div>
     </div>
