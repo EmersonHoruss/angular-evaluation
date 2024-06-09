@@ -21,7 +21,7 @@ import { ButtonComponent } from '../../../shared/button/button.component';
           Signup
         </app-button>
       </div>
-      <form action="">
+      <form>
         <div class="form-field">
           <label class="form-field__label">Email</label>
           <input

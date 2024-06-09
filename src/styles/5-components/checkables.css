@@ -1,7 +1,6 @@
 .checkables {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
 }
 
 .checkables-item {

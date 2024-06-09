@@ -1,0 +1,77 @@
+.wrapper-form {
+  display: flex;
+  max-width: var(--width-xs, 320px);
+  flex-direction: column;
+  gap: var(--spacing-2, 8px);
+  margin-inline: auto;
+  margin-bottom: var(--spacing-8, 32px);
+}
+
+.wrapper-tasks {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  max-width: var(--width-3xl, 768px);
+  margin-inline: auto;
+}
+
+.wrapper-tasks-filters {
+  display: flex;
+  padding: var(--spacing-4, 16px) var(--spacing-2, 8px);
+  flex-direction: column;
+  gap: var(--spacing-4, 16px);
+}
+
+.wrapper-tasks-list {
+  display: flex;
+  padding: var(--spacing-2, 8px) var(--spacing-4, 16px);
+  flex-direction: column;
+  gap: var(--spacing-4, 16px);
+}
+
+.wrapper-tasks-list-item {
+  display: flex;
+  max-width: var(--width-md, 448px);
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+  margin-inline: auto;
+}
+
+.wrapper-tasks-list-item-content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2, 8px);
+  flex-grow: 1;
+}
+
+.wrapper-tasks-list-item-content > input[type="checkbox"] {
+  margin-top: var(--spacing-2);
+  flex-grow: 0;
+}
+
+.wrapper-tasks-list-item-content div {
+  flex-grow: 1;
+}
+
+.wrapper-tasks-list-item-content label {
+  font-size: var(--font-lg);
+  font-weight: 500;
+  line-height: var(--leading-8);
+  display: block;
+}
+
+.wrapper-tasks-list-item-content small {
+  color: var(--muted-foreground, #525252);
+  font-size: var(--font-sm);
+  line-height: var(--leading-6);
+}
+
+.wrapper-tasks-list-item-actions {
+  display: flex;
+  gap: var(--spacing-2, 8px);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}

@@ -20,5 +20,5 @@ import { UnauthenticatedComponent } from './ui/unauthenticated/unauthenticated.c
   styleUrl: './doable.component.css',
 })
 export class DoableComponent {
-  isAuthenticated = false;
+  isAuthenticated = true;
 }
