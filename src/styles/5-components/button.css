@@ -168,3 +168,18 @@
   bottom: 16px;
   grid-column-start: 2;
 }
+
+.button-doable {
+  border: none;
+  width: var(--spacing-24, 96px);
+  padding: var(--spacing-1, 4px) var(--spacing-3, 12px);
+  border-radius: var(--rounded-lg, 8px);
+  background: var(--muted, #f5f5f5);
+  cursor: pointer;
+}
+
+.button-doable__active {
+  background: var(--background, #fff);
+  color: var(--muted-foreground, #525252);
+  font-weight: 600;
+}

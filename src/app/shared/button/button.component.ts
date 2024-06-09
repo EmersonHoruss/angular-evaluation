@@ -11,6 +11,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       [class]="cssClass"
       [disabled]="disabled"
       (click)="handleClick()"
+      type="button"
     >
       <ng-content></ng-content>
     </button>
