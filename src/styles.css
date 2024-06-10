@@ -55,6 +55,7 @@
 @import url(styles/5-components/scroll.css);
 @import url(styles/5-components/table.css);
 @import url(styles/5-components/staff.css);
+@import url(styles/5-components/error.css);
 
 /* 6. Utilities */
 @import url(styles/6-utilities/utilities.css);
