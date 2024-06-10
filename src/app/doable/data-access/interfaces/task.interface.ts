@@ -29,11 +29,6 @@ export interface TaskState {
   loading: boolean;
 }
 
-export interface TaskQuery {
-  sort: string;
-  filters: string;
-}
-
 export type sortTaskType = 'old_first' | 'new_first' | 'a_z' | 'z_a';
 
 export type filterTaskType = 'pending' | 'important' | 'pending_important';

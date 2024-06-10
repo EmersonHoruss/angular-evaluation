@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, inject, signal } from '@angular/core';
+import { Component, Inject, OnInit, effect, inject, signal } from '@angular/core';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DatePipe } from '@angular/common';
 import { TaskService } from '../../data-access/services/task.service';
@@ -7,15 +7,16 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  FormsModule,
 } from '@angular/forms';
 import { TasksStateService } from '../../data-access/state/task-state.service';
 import { AuthStateService } from '../../data-access/state/auth-state.service';
-import { Task } from '../../data-access/interfaces/task.interface';
+import { Task, sortTaskType } from '../../data-access/interfaces/task.interface';
 
 @Component({
   selector: 'app-authenticated',
   standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule],
+  imports: [ButtonComponent, ReactiveFormsModule,FormsModule],
   providers: [DatePipe],
   template: `
     <div>
@@ -42,16 +43,16 @@ import { Task } from '../../data-access/interfaces/task.interface';
       </form>
 
       <div class="wrapper-tasks">
-        <form class="wrapper-tasks-filters" [formGroup]="formFilter">
+        <div class="wrapper-tasks-filters">
           <div class="form-field">
             <label class="form-field__label" for="sort">Sort by</label>
             <select
               class="form-field__main-content"
               id="sort"
-              formControlName="sort"
+              [(ngModel)]="sortOption"
             >
               <option value="old_first">Due Date (old first)</option>
-              <option value="new_fist">Due Date (new first)</option>
+              <option value="new_first">Due Date (new first)</option>
               <option value="a_z">Alphabetical (a-z)</option>
               <option value="z_a">Alphabetical (z-a)</option>
             </select>
@@ -63,16 +64,14 @@ import { Task } from '../../data-access/interfaces/task.interface';
               <label class="checkables-item">
                 <input
                   type="checkbox"
-                  (change)="toggleFilter('pending')"
-                  [checked]="isFilterSelected('onlyPending')"
+                  [(ngModel)]="isPending"
                 />
                 Only pending
               </label>
               <label class="checkables-item">
                 <input
                   type="checkbox"
-                  (change)="toggleFilter('important')"
-                  [checked]="isFilterSelected('onlyImportant')"
+                  [(ngModel)]="isImportant"
                 />
                 Only important
               </label>
@@ -85,7 +84,7 @@ import { Task } from '../../data-access/interfaces/task.interface';
           >
             Logout
           </app-button>
-        </form>
+        </div>
 
         <div class="wrapper-tasks-list">
           @for (task of taskService.tasks(); track task.id) {
@@ -99,7 +98,7 @@ import { Task } from '../../data-access/interfaces/task.interface';
               <div>
                 <label for="">{{ task.title }}</label>
                 <small>
-                  {{ datePipe.transform(task.created_at, 'EEEE, MMM dd') }}
+                  {{ datePipe.transform(task.due_date, 'EEEE, MMM dd') }}
                 </small>
               </div>
             </div>
@@ -163,44 +162,36 @@ import { Task } from '../../data-access/interfaces/task.interface';
   `,
   styleUrl: './authenticated.component.css',
 })
-export class AuthenticatedComponent implements OnInit {
+export class AuthenticatedComponent {
   fb = inject(FormBuilder);
   taskService = inject(TasksStateService);
   authService = inject(AuthStateService);
   datePipe = inject(DatePipe);
+  sortOption = signal<sortTaskType>('old_first');
+  isPending = signal<boolean>(false);
+  isImportant = signal<boolean>(false);
 
   formAdd!: FormGroup;
-  formFilter!: FormGroup;
 
   constructor() {
     this.formAdd = this.fb.group({
       title: [''],
       due_date: [''],
     });
-
-    this.formFilter = this.fb.group({
-      sort: ['old_first'],
-      filters: this.fb.array([]),
-    });
-  }
-
-  get filters(): FormArray {
-    return this.formFilter.get('filters') as FormArray;
-  }
-
-  toggleFilter(value: string) {
-    const index = this.filters.controls.findIndex(
-      (control) => control.value === value
-    );
-    if (index === -1) {
-      this.filters.push(this.fb.control(value));
-    } else {
-      this.filters.removeAt(index);
-    }
-  }
-
-  isFilterSelected(value: string): boolean {
-    return this.filters.controls.some((control) => control.value === value);
+    effect(()=>{
+      this.taskService.sortTasksBy$.next((this.sortOption()));
+    },{ allowSignalWrites: true });
+    effect(()=>{
+      if(this.isPending() && this.isImportant()){
+        this.taskService.filterTaskBy$.next('pending_important');
+      }else if(this.isPending()){
+        this.taskService.filterTaskBy$.next('pending');
+      }else if(this.isImportant()){
+        this.taskService.filterTaskBy$.next('important');
+      }else{
+        this.taskService.getAllTasks$.next();
+      }
+    },{ allowSignalWrites: true })
   }
 
   handleAdd() {
@@ -224,23 +215,5 @@ export class AuthenticatedComponent implements OnInit {
   handleDelete(id: number) {
     this.taskService.deleteTask$.next(id);
   }
-
-  ngOnInit() {
-    this.formFilter.valueChanges.subscribe((value) => {
-      if (value.filters.length) {
-        const isPending = value.filters.find((e: string) => e === 'pending');
-        const isImportant = value.filters.find(
-          (e: string) => e === 'important'
-        );
-        const allChecks = isPending && isImportant ? 'pending_important' : '';
-        if (allChecks) {
-          this.taskService.filterTaskBy$.next(allChecks);
-        } else {
-          this.taskService.filterTaskBy$.next(value.filters[0]);
-        }
-      }
-
-      this.taskService.sortTasksBy$.next(value.sort);
-    });
-  }
+    
 }

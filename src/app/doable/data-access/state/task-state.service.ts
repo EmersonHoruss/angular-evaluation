@@ -25,6 +25,7 @@ export class TasksStateService {
   createTask$ = new Subject<CreateTask>();
   editTask$ = new Subject<EditTaskWithId>();
   deleteTask$ = new Subject<number>();
+  getAllTasks$ = new Subject<void>();
 
   sortTasksBy$ = new Subject<sortTaskType>();
   filterTaskBy$ = new Subject<filterTaskType>();
@@ -107,34 +108,40 @@ export class TasksStateService {
         this.setError(null);
       });
 
+    this.getAllTasks$.pipe(
+      takeUntilDestroyed(),
+      tap(() => this.setLoading(true)),
+      switchMap(()=> 
+        this.tasksService.getListTasks(this.token()||'').pipe(this.setCatchError()))
+    ).subscribe((tasks:any)=>{
+      this.setLoading(false);
+      this.setTasks(tasks);
+      this.setError(null);
+    })
+
     this.sortTasksBy$
       .pipe(
         takeUntilDestroyed(),
         tap(() => this.setLoading(true)),
-        switchMap((sortBy: sortTaskType) =>
-          this.tasksService.getListTasks(this.token() || '').pipe(
-            map((tasks) => ({ tasks, sortBy })),
-            this.setCatchError()
-          )
-        )
       )
-      .subscribe(({ tasks, sortBy }: any) => {
+      .subscribe(( sortBy:any ) => {
         let orderTasks: Task[] = [];
+        const tasksList = this.tasks() || [];
         switch (sortBy) {
           case 'old_first':
-            orderTasks = this.sortTasksOldFirst(tasks);
+            orderTasks = this.sortTasksOldFirst(tasksList);
             break;
           case 'new_first':
-            orderTasks = this.sortTasksNewFirst(tasks);
+            orderTasks = this.sortTasksNewFirst(tasksList);
             break;
           case 'a_z':
-            orderTasks = this.sortTasksByTitleAsc(tasks);
+            orderTasks = this.sortTasksByTitleAsc(tasksList);
             break;
           case 'z_a':
-            orderTasks = this.sortTasksByTitleDesc(tasks);
+            orderTasks = this.sortTasksByTitleDesc(tasksList);
             break;
           default:
-            orderTasks = tasks;
+            orderTasks = tasksList;
             break;
         }
         this.setTasks(orderTasks);
