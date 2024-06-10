@@ -1,32 +1,55 @@
-import { Component, Inject, inject, signal } from '@angular/core';
+import { Component, Inject, OnInit, inject, signal } from '@angular/core';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DatePipe } from '@angular/common';
+import { TaskService } from '../../data-access/services/task.service';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { TasksStateService } from '../../data-access/state/task-state.service';
+import { AuthStateService } from '../../data-access/state/auth-state.service';
+import { Task } from '../../data-access/interfaces/task.interface';
 
 @Component({
   selector: 'app-authenticated',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, ReactiveFormsModule],
   providers: [DatePipe],
   template: `
     <div>
-      <form class="wrapper-form ">
+      <form class="wrapper-form" [formGroup]="formAdd">
         <div class="form-field">
-          <input class="form-field__main-content" placeholder="do the dishes" />
+          <input
+            class="form-field__main-content"
+            placeholder="do the dishes"
+            formControlName="title"
+          />
         </div>
 
         <div class="form-field">
-          <input class="form-field__main-content" type="date" />
+          <input
+            class="form-field__main-content"
+            type="date"
+            formControlName="due_date"
+          />
         </div>
 
         <app-button cssClass="button-default w-full" (clicked)="handleAdd()">
           Add task
         </app-button>
       </form>
+
       <div class="wrapper-tasks">
-        <form class="wrapper-tasks-filters">
+        <form class="wrapper-tasks-filters" [formGroup]="formFilter">
           <div class="form-field">
             <label class="form-field__label" for="sort">Sort by</label>
-            <select class="form-field__main-content" id="sort">
+            <select
+              class="form-field__main-content"
+              id="sort"
+              formControlName="sort"
+            >
               <option value="old_first">Due Date (old first)</option>
               <option value="new_fist">Due Date (new first)</option>
               <option value="a_z">Alphabetical (a-z)</option>
@@ -38,11 +61,19 @@ import { DatePipe } from '@angular/common';
             <legend class="form-field__label">Filter</legend>
             <div class="checkables form-field__main-content">
               <label class="checkables-item">
-                <input type="checkbox" name="css" value="si" />
+                <input
+                  type="checkbox"
+                  (change)="toggleFilter('pending')"
+                  [checked]="isFilterSelected('onlyPending')"
+                />
                 Only pending
               </label>
               <label class="checkables-item">
-                <input type="checkbox" name="js" value="si" />
+                <input
+                  type="checkbox"
+                  (change)="toggleFilter('important')"
+                  [checked]="isFilterSelected('onlyImportant')"
+                />
                 Only important
               </label>
             </div>
@@ -57,22 +88,29 @@ import { DatePipe } from '@angular/common';
         </form>
 
         <div class="wrapper-tasks-list">
-          @for (task of tasks; track task.id) {
+          @for (task of taskService.tasks(); track task.id) {
           <div class="wrapper-tasks-list-item">
             <div class="wrapper-tasks-list-item-content">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                (change)="handleCompleted(task)"
+                [checked]="task.completed"
+              />
               <div>
-                <label for="">asdf</label>
+                <label for="">{{ task.title }}</label>
                 <small>
-                  {{ datePipe.transform('2024-06-09', 'EEEE, MMM dd') }}
+                  {{ datePipe.transform(task.created_at, 'EEEE, MMM dd') }}
                 </small>
               </div>
             </div>
 
             <div class="wrapper-tasks-list-item-actions">
               <app-button
-                cssClass="button-icon button-outline"
-                (clicked)="handleImportant(task.id, task.important)"
+                [cssClass]="
+                  'button-icon button-outline ' +
+                  (task.important && 'secondary')
+                "
+                (clicked)="handleImportant(task)"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -125,24 +163,84 @@ import { DatePipe } from '@angular/common';
   `,
   styleUrl: './authenticated.component.css',
 })
-export class AuthenticatedComponent {
+export class AuthenticatedComponent implements OnInit {
+  fb = inject(FormBuilder);
+  taskService = inject(TasksStateService);
+  authService = inject(AuthStateService);
   datePipe = inject(DatePipe);
 
-  handleAdd() {}
+  formAdd!: FormGroup;
+  formFilter!: FormGroup;
 
-  handleLogout() {}
+  constructor() {
+    this.formAdd = this.fb.group({
+      title: [''],
+      due_date: [''],
+    });
 
-  tasks = [
-    {
-      id: 12,
-      name: 'hola',
-      date: '2024-06-09',
-      important: true,
-      pending: true,
-    },
-  ];
+    this.formFilter = this.fb.group({
+      sort: ['old_first'],
+      filters: this.fb.array([]),
+    });
+  }
 
-  handleImportant(id: number, important: boolean) {}
+  get filters(): FormArray {
+    return this.formFilter.get('filters') as FormArray;
+  }
 
-  handleDelete(id: number) {}
+  toggleFilter(value: string) {
+    const index = this.filters.controls.findIndex(
+      (control) => control.value === value
+    );
+    if (index === -1) {
+      this.filters.push(this.fb.control(value));
+    } else {
+      this.filters.removeAt(index);
+    }
+  }
+
+  isFilterSelected(value: string): boolean {
+    return this.filters.controls.some((control) => control.value === value);
+  }
+
+  handleAdd() {
+    this.taskService.createTask$.next(this.formAdd.value);
+    this.formAdd.reset();
+  }
+
+  handleLogout() {
+    this.authService.logout$.next();
+  }
+
+  handleImportant(task: Task) {
+    this.taskService.editTask$.next({ ...task, important: !task.important });
+  }
+
+  handleCompleted(task: Task) {
+    console.log(task);
+    this.taskService.editTask$.next({ ...task, completed: !task.completed });
+  }
+
+  handleDelete(id: number) {
+    this.taskService.deleteTask$.next(id);
+  }
+
+  ngOnInit() {
+    this.formFilter.valueChanges.subscribe((value) => {
+      if (value.filters.length) {
+        const isPending = value.filters.find((e: string) => e === 'pending');
+        const isImportant = value.filters.find(
+          (e: string) => e === 'important'
+        );
+        const allChecks = isPending && isImportant ? 'pending_important' : '';
+        if (allChecks) {
+          this.taskService.filterTaskBy$.next(allChecks);
+        } else {
+          this.taskService.filterTaskBy$.next(value.filters[0]);
+        }
+      }
+
+      this.taskService.sortTasksBy$.next(value.sort);
+    });
+  }
 }

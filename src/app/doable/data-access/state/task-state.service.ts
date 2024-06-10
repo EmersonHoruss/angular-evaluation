@@ -25,6 +25,7 @@ export class TasksStateService {
   createTask$ = new Subject<CreateTask>();
   editTask$ = new Subject<EditTaskWithId>();
   deleteTask$ = new Subject<number>();
+
   sortTasksBy$ = new Subject<sortTaskType>();
   filterTaskBy$ = new Subject<filterTaskType>();
 
@@ -110,7 +111,7 @@ export class TasksStateService {
       .pipe(
         takeUntilDestroyed(),
         tap(() => this.setLoading(true)),
-        switchMap((sortBy) =>
+        switchMap((sortBy: sortTaskType) =>
           this.tasksService.getListTasks(this.token() || '').pipe(
             map((tasks) => ({ tasks, sortBy })),
             this.setCatchError()
