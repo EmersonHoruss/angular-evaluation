@@ -11,7 +11,7 @@ import { encapsulateStyle } from '@angular/compiler';
   imports: [CommonModule, ButtonComponent],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="wrapper">
+    <div class="color-game-wrapper">
       <h1 class="title">Color Game</h1>
       <p class="description">
         Guess which color correspond to the following RGB code
